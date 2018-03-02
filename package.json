@@ -1,0 +1,22 @@
+{
+  "name": "vue-test",
+  "version": "1.0.0",
+  "description": "1. [vuejs怎么在服务器部署？](https://www.zhihu.com/question/46630687/answer/157166318) 1. [webpack 打包资源文件路径的正确引用方式](https://zhuanlan.zhihu.com/p/30119665)",
+  "main": "index.js",
+  "directories": {
+    "example": "example"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Willworkgogogo/Vue-api.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Willworkgogogo/Vue-api/issues"
+  },
+  "homepage": "https://github.com/Willworkgogogo/Vue-api#readme"
+}

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="../node_modules/vue/dist/vue.js"></script>
+</head>
+
+<body>
+  <div class="app1">
+    <h3>1.自定义指令</h3>
+    <div>
+      <span v-color="color">{{count}}</span>
+      <div>
+        <button @click="addCount">Add</button>
+        <button @click="unbind">解绑</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="app2">
+    <h3>2.Vue.extend扩展</h3>
+    <author></author>  
+  </div>
+
+  <div class="app3">
+    <h3>3.Vue.set</h3>
+    <p>Vue.set 修改构造器外部数组的值时，其他方式改变外部数组的值不会触发vue更新</p>
+    <ul>
+      <li v-for="aa in arr">{{aa}}</li>
+      <button onclick="update()">外部修改</button>
+    </ul>
+  </div>
+
+  <script type="text/javascript">
+    // 1改变color的自定义指令
+    Vue.directive('color', {
+      bind: function (el, binding) { //被绑定
+        console.log('1 - bind');
+        el.style = 'color:' + binding.value
+      },
+      inserted: function () { //绑定到节点
+        console.log('2 - inserted');
+      },
+      update: function (el, binding) { //组件更新
+        console.log('3 - update');
+        let color = binding.value == 'red' ? 'green' : 'red'
+        el.style = 'color:' + color
+      },
+      componentUpdated: function () { //组件更新完成
+        console.log('4 - componentUpdated');
+      },
+      unbind: function () { //解绑
+        console.log('5 - unbind');
+      }
+    })
+
+    var app1 = new Vue({
+      el: '.app1',
+      data: {
+        count: 10,
+        color: 'red'
+      },
+      methods: {
+        addCount() {
+          this.count++
+          console.log(this.color)
+        },
+        unbind() {
+          this.$destroy()
+        }
+      }
+    })
+
+
+    // 2
+    var authorExtend = Vue.extend({
+      template: '<p><a :href="authorUrl">{{authorName}}</a></p>',
+      data() {
+        return {
+          authorName: 'Will',
+          authorUrl: 'http://blog.yalingmai.cn'
+        }
+      }
+    })
+    new authorExtend().$mount('author')
+
+    // 3 
+    function update() {
+      console.log('..')
+      // app3.arr[0] = '000' // 并不能触发vue视图的更新
+      Vue.set(app3.arr, 0, '000')
+      console.log(app3.arr)
+    }
+    var outData = {
+      arr: ['aaa', 'bbb', 'ccc']
+    }
+
+    var app3 = new Vue({
+      el: '.app3',
+      data: outData
+    })
+
+
+  </script>
+</body>
+
+</html>

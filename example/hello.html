@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="../node_modules/vue/dist/vue.js"></script>
+</head>
+<body>
+  <!-- hello -->
+  <hr>
+  <div id="app1">{{message}}</div>
+ 
+  <!-- v-if -->
+  <br>
+  <hr>
+  <div class="app2">
+    <span v-if="isLogin">欢迎登陆</span>
+    <span v-else>请登录</span>
+    <button class="btn2" @click="toggleLogin">修改登录状态</button>
+  </div>
+
+  <!-- 排序sort -->
+  <br>
+  <hr>
+  <div class="app3">
+    <span v-for="(item,index) in setSort">{{item}}<i v-if="index < items.length-1">,</i></span>
+  </div>
+
+  <!-- 对象排序sort -->
+  <br>
+  <hr>
+  <ul class="app4">
+    <li v-for="(student,index) in sortObj">
+      {{index}} - {{student.name}} - {{student.age}}
+    </li>
+  </ul>
+
+  <!-- v-html v-text -->
+  <br>
+  <hr>
+  <div class="app5">
+    <span>{{message}}</span> --- <span v-text="message"></span>
+    <div v-html="messageHtml"></div>
+  </div>
+
+  <!-- keyup -->
+  <br>
+  <hr>
+  <div class="app6">
+      <input v-model="ipt" v-on:keyup.enter="addData">
+      <div v-once>只显示第一次内容： {{ipt}}</div>
+      <ul>
+        <li v-for="(item,index) in items">{{index}} - {{item}}</li>
+      </ul>
+  </div>
+
+  <script type="text/javascript">
+    var app1 = new Vue({
+      el: '#app1',
+      data: {
+        message: 'hello vue'
+      }
+    })
+
+    var app2 = new Vue({
+      el: '.app2',
+      data: {
+        isLogin: false
+      },
+      methods: {
+        toggleLogin() {
+          this.isLogin = !this.isLogin
+        }
+      }
+    })
+
+    var app3 = new Vue({
+      el: '.app3',
+      data: {
+        items: [10,5,40,25,1000,1]
+      },
+      computed: {
+        setSort: function() {
+          return this.items.sort((a, b) => a - b)
+        }
+      }
+    })
+
+    var app4 = new Vue({
+      el: '.app4',
+      data: {
+        students:[
+          {name:'jspang',age:32},
+          {name:'Panda',age:30},
+          {name:'PanPaN',age:21},
+          {name:'King',age:45}
+        ]
+      },
+      computed: {
+        sortObj: function() {
+          return this._sortByKey(this.students, 'age')
+        }
+      },
+      methods: {
+        _sortByKey: function(array, key) {
+          return array.sort(function(a, b) {
+            let x = a[key],
+                y = b[key];
+            return x < y ? -1 : ((x>y)?1:0)
+          })
+        }
+      }
+    })
+
+    var app5 = new Vue({
+      el: '.app5',
+      data: {
+        message: '纯文本',
+        messageHtml: '<h1>标签文本</h1>'
+      }
+    })
+
+    var app5 = new Vue({
+      el: '.app6',
+      data: {
+        ipt: '123',
+        items: []
+      },
+      methods: {
+        addData() {
+          if (this.ipt) {
+            this.items.push(this.ipt)
+            this.ipt = ''
+          }
+        }
+      }
+    })
+  </script>
+</body>
+</html>
